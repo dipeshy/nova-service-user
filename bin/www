@@ -88,3 +88,17 @@ function onListening() {
     : `http://localhost:${addr.port}`;
   debug('Listening on ' + bind);
 }
+
+
+process.once("SIGTERM", closeServer);
+
+// Nodemon emits this signal. Close server and kill the processes
+process.once("SIGUSR2", closeServer);
+
+function closeServer() {
+  debug("Closing server.");
+  server.close(() => {
+    debug(`Stopping process ${process.pid}`);
+    process.kill(process.pid, "SIGUSR2");
+  });
+}
