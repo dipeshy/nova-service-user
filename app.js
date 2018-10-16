@@ -15,7 +15,10 @@ app.use(function (_, res, next) {
     next();
 });
 
+const authRouter = require('./routes/v1/auth');
 const indexRouter = require('./routes/v1/index');
+
+app.use('/v1/auth', authRouter);
 app.use('/v1', indexRouter);
 
 module.exports = app;
